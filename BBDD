@@ -1,0 +1,73 @@
+create table Periodicitat(
+    id int NOT NULL AUTO_INCREMENT,
+    data_limit date NOT NULL,
+    dies varchar(20),
+    PRIMARY KEY (id));
+    
+
+create table Usuaris(
+    id int NOT NULL AUTO_INCREMENT,
+    nom varchar(50),
+    cognoms varchar(50),
+    dni varchar(9),
+    grup_escolar int,
+    foto varchar(200),
+    correu varchar(50),
+    rol varchar(3),
+    fecha_inscripcion datetime,
+    Primary Key (id));
+
+create table Vehicles(
+    id int NOT NULL AUTO_INCREMENT,
+    id_usuari int,
+    tipus varchar(50),
+    marca varchar(50),
+    model varchar(50),
+    matricula varchar(8),
+    combustio varchar(20),
+    places int,
+    primary key (id),
+    FOREIGN KEY (id_usuari) REFERENCES Usuaris(id));
+    
+create table Ruta(
+    id int NOT NULL AUTO_INCREMENT,
+    inici_ruta varchar(300),
+    fi_ruta varchar(300),
+    km float,
+    primary key (id));
+
+create table Viatge(
+    id int NOT NULL AUTO_INCREMENT,
+    id_ruta int,
+    id_usuari int,
+    id_vehicle int,
+    id_periodicitat int,
+    preu float,
+    numseientdisponible int,
+    numseientrestant int,
+    duracio int,
+	primary key(id),
+	FOREIGN KEY (id_ruta) REFERENCES Ruta(id),
+	FOREIGN KEY (id_usuari) REFERENCES Usuaris(id),
+	FOREIGN KEY (id_vehicle) REFERENCES Vehicles(id),
+	FOREIGN KEY (id_periodicitat) REFERENCES Periodicitat(id));
+    
+ create table Passatger(
+     id int NOT NULL AUTO_INCREMENT,
+     id_viatge int,
+     id_usuari int,
+	primary key(id),
+     FOREIGN KEY (id_usuari) REFERENCES Usuaris(id),
+	 FOREIGN KEY (id_viatge) REFERENCES Viatge(id));
+     
+ create table Caracteristiques(
+     permisosViatges varchar(200)
+     );
+     
+ create table Correu(
+     id int NOT NULL AUTO_INCREMENT,
+     id_usuari int,
+     contingut varchar(500),
+     vist bool,
+     primary key(id),
+     FOREIGN KEY (id_usuari) REFERENCES Usuaris(id));
