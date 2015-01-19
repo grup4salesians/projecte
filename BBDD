@@ -1,73 +1,333 @@
-create table Periodicitat(
-    id int NOT NULL AUTO_INCREMENT,
-    data_limit date NOT NULL,
-    dies varchar(20),
-    PRIMARY KEY (id));
-    
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
-create table Usuaris(
-    id int NOT NULL AUTO_INCREMENT,
-    nom varchar(50),
-    cognoms varchar(50),
-    dni varchar(9),
-    grup_escolar int,
-    foto varchar(200),
-    correu varchar(50),
-    rol varchar(3),
-    fecha_inscripcion datetime,
-    Primary Key (id));
 
-create table Vehicles(
-    id int NOT NULL AUTO_INCREMENT,
-    id_usuari int,
-    tipus varchar(50),
-    marca varchar(50),
-    model varchar(50),
-    matricula varchar(8),
-    combustio varchar(20),
-    places int,
-    primary key (id),
-    FOREIGN KEY (id_usuari) REFERENCES Usuaris(id));
-    
-create table Ruta(
-    id int NOT NULL AUTO_INCREMENT,
-    inici_ruta varchar(300),
-    fi_ruta varchar(300),
-    km float,
-    primary key (id));
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 
-create table Viatge(
-    id int NOT NULL AUTO_INCREMENT,
-    id_ruta int,
-    id_usuari int,
-    id_vehicle int,
-    id_periodicitat int,
-    preu float,
-    numseientdisponible int,
-    numseientrestant int,
-    duracio int,
-	primary key(id),
-	FOREIGN KEY (id_ruta) REFERENCES Ruta(id),
-	FOREIGN KEY (id_usuari) REFERENCES Usuaris(id),
-	FOREIGN KEY (id_vehicle) REFERENCES Vehicles(id),
-	FOREIGN KEY (id_periodicitat) REFERENCES Periodicitat(id));
-    
- create table Passatger(
-     id int NOT NULL AUTO_INCREMENT,
-     id_viatge int,
-     id_usuari int,
-	primary key(id),
-     FOREIGN KEY (id_usuari) REFERENCES Usuaris(id),
-	 FOREIGN KEY (id_viatge) REFERENCES Viatge(id));
-     
- create table Caracteristiques(
-     permisosViatges varchar(200)
-     );
-     
- create table Correu(
-     id int NOT NULL AUTO_INCREMENT,
-     id_usuari int,
-     contingut varchar(500),
-     vist bool,
-     primary key(id),
-     FOREIGN KEY (id_usuari) REFERENCES Usuaris(id));
+--
+-- Base de datos: `dawsharing`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `caracteristiques`
+--
+
+CREATE TABLE IF NOT EXISTS `caracteristiques` (
+  `permisosViatges` varchar(200) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `correu`
+--
+
+CREATE TABLE IF NOT EXISTS `correu` (
+`id` int(11) NOT NULL,
+  `id_usuari` int(11) DEFAULT NULL,
+  `contingut` varchar(500) DEFAULT NULL,
+  `vist` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `marca`
+--
+
+CREATE TABLE IF NOT EXISTS `marca` (
+`id` int(11) NOT NULL,
+  `marca` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `model`
+--
+
+CREATE TABLE IF NOT EXISTS `model` (
+`id` int(11) NOT NULL,
+  `id_marca` int(11) DEFAULT NULL,
+  `model` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `passatger`
+--
+
+CREATE TABLE IF NOT EXISTS `passatger` (
+`id` int(11) NOT NULL,
+  `id_viatge` int(11) DEFAULT NULL,
+  `id_usuari` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `periodicitat`
+--
+
+CREATE TABLE IF NOT EXISTS `periodicitat` (
+`id` int(11) NOT NULL,
+  `data_limit` date NOT NULL,
+  `dies` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ruta`
+--
+
+CREATE TABLE IF NOT EXISTS `ruta` (
+`id` int(11) NOT NULL,
+  `inici_ruta` varchar(300) DEFAULT NULL,
+  `fi_ruta` varchar(300) DEFAULT NULL,
+  `km` float DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuaris`
+--
+
+CREATE TABLE IF NOT EXISTS `usuaris` (
+`id` int(11) NOT NULL,
+  `nom` varchar(50) DEFAULT NULL,
+  `cognoms` varchar(50) DEFAULT NULL,
+  `dni` varchar(9) DEFAULT NULL,
+  `grup_escolar` int(11) DEFAULT NULL,
+  `foto` varchar(200) DEFAULT NULL,
+  `correu` varchar(50) DEFAULT NULL,
+  `rol` varchar(3) DEFAULT NULL,
+  `fecha_inscripcion` datetime DEFAULT NULL,
+  `contrasenya` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `sexe` varchar(20) DEFAULT NULL,
+  `data_naixement` date DEFAULT NULL,
+  `idioma` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `vehicles`
+--
+
+CREATE TABLE IF NOT EXISTS `vehicles` (
+`id` int(11) NOT NULL,
+  `tipus` varchar(50) DEFAULT NULL,
+  `id_model` int(11) DEFAULT NULL,
+  `combustio` varchar(20) DEFAULT NULL,
+  `places` int(11) DEFAULT NULL,
+  `custom_marca` varchar(50) DEFAULT NULL,
+  `custo_model` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `vehicles_usuaris`
+--
+
+CREATE TABLE IF NOT EXISTS `vehicles_usuaris` (
+`id` int(11) NOT NULL,
+  `id_vehicles` int(11) NOT NULL,
+  `id_usuaris` int(11) NOT NULL,
+  `matricula` int(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `viatge`
+--
+
+CREATE TABLE IF NOT EXISTS `viatge` (
+`id` int(11) NOT NULL,
+  `id_ruta` int(11) DEFAULT NULL,
+  `id_usuari` int(11) DEFAULT NULL,
+  `id_vehicle` int(11) DEFAULT NULL,
+  `id_periodicitat` int(11) DEFAULT NULL,
+  `preu` float DEFAULT NULL,
+  `numseientdisponible` int(11) DEFAULT NULL,
+  `numseientrestant` int(11) DEFAULT NULL,
+  `duracio` int(11) DEFAULT NULL,
+  `permissos` varchar(20) DEFAULT NULL,
+  `data` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `correu`
+--
+ALTER TABLE `correu`
+ ADD PRIMARY KEY (`id`), ADD KEY `id_usuari` (`id_usuari`);
+
+--
+-- Indices de la tabla `marca`
+--
+ALTER TABLE `marca`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `model`
+--
+ALTER TABLE `model`
+ ADD PRIMARY KEY (`id`), ADD KEY `fk_model` (`id_marca`);
+
+--
+-- Indices de la tabla `passatger`
+--
+ALTER TABLE `passatger`
+ ADD PRIMARY KEY (`id`), ADD KEY `id_usuari` (`id_usuari`), ADD KEY `id_viatge` (`id_viatge`);
+
+--
+-- Indices de la tabla `periodicitat`
+--
+ALTER TABLE `periodicitat`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `ruta`
+--
+ALTER TABLE `ruta`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `usuaris`
+--
+ALTER TABLE `usuaris`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `vehicles`
+--
+ALTER TABLE `vehicles`
+ ADD PRIMARY KEY (`id`), ADD KEY `id_model` (`id_model`);
+
+--
+-- Indices de la tabla `vehicles_usuaris`
+--
+ALTER TABLE `vehicles_usuaris`
+ ADD PRIMARY KEY (`id`), ADD KEY `id_vehicles` (`id_vehicles`), ADD KEY `id_usuaris` (`id_usuaris`);
+
+--
+-- Indices de la tabla `viatge`
+--
+ALTER TABLE `viatge`
+ ADD PRIMARY KEY (`id`), ADD KEY `id_ruta` (`id_ruta`), ADD KEY `id_usuari` (`id_usuari`), ADD KEY `id_vehicle` (`id_vehicle`), ADD KEY `id_periodicitat` (`id_periodicitat`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `correu`
+--
+ALTER TABLE `correu`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `marca`
+--
+ALTER TABLE `marca`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `model`
+--
+ALTER TABLE `model`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `passatger`
+--
+ALTER TABLE `passatger`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `periodicitat`
+--
+ALTER TABLE `periodicitat`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `ruta`
+--
+ALTER TABLE `ruta`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `usuaris`
+--
+ALTER TABLE `usuaris`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `vehicles`
+--
+ALTER TABLE `vehicles`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `vehicles_usuaris`
+--
+ALTER TABLE `vehicles_usuaris`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `viatge`
+--
+ALTER TABLE `viatge`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `correu`
+--
+ALTER TABLE `correu`
+ADD CONSTRAINT `correu_ibfk_1` FOREIGN KEY (`id_usuari`) REFERENCES `usuaris` (`id`);
+
+--
+-- Filtros para la tabla `model`
+--
+ALTER TABLE `model`
+ADD CONSTRAINT `fk_model` FOREIGN KEY (`id_marca`) REFERENCES `marca` (`id`);
+
+--
+-- Filtros para la tabla `passatger`
+--
+ALTER TABLE `passatger`
+ADD CONSTRAINT `passatger_ibfk_1` FOREIGN KEY (`id_usuari`) REFERENCES `usuaris` (`id`),
+ADD CONSTRAINT `passatger_ibfk_2` FOREIGN KEY (`id_viatge`) REFERENCES `viatge` (`id`);
+
+--
+-- Filtros para la tabla `vehicles`
+--
+ALTER TABLE `vehicles`
+ADD CONSTRAINT `vehicles_ibfk_1` FOREIGN KEY (`id_model`) REFERENCES `model` (`id`);
+
+--
+-- Filtros para la tabla `vehicles_usuaris`
+--
+ALTER TABLE `vehicles_usuaris`
+ADD CONSTRAINT `vehicles_usuaris_ibfk_1` FOREIGN KEY (`id_vehicles`) REFERENCES `vehicles` (`id`),
+ADD CONSTRAINT `vehicles_usuaris_ibfk_2` FOREIGN KEY (`id_usuaris`) REFERENCES `usuaris` (`id`);
+
+--
+-- Filtros para la tabla `viatge`
+--
+ALTER TABLE `viatge`
+ADD CONSTRAINT `viatge_ibfk_1` FOREIGN KEY (`id_ruta`) REFERENCES `ruta` (`id`),
+ADD CONSTRAINT `viatge_ibfk_2` FOREIGN KEY (`id_usuari`) REFERENCES `usuaris` (`id`),
+ADD CONSTRAINT `viatge_ibfk_3` FOREIGN KEY (`id_vehicle`) REFERENCES `vehicles` (`id`),
+ADD CONSTRAINT `viatge_ibfk_4` FOREIGN KEY (`id_periodicitat`) REFERENCES `periodicitat` (`id`);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
