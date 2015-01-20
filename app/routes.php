@@ -30,4 +30,7 @@ Route::get('deletemarca/{marca}',function($marca){
  
 });
 
-
+// Nos mostrará el formulario de login.
+Route::get('login',function(){
+    return View::make('/backend/login');
+});
