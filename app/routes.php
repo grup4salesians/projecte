@@ -21,6 +21,7 @@ Route::get('marca',array('uses'=>'MarcaController@mostrarMarcas'));
 
 
 Route::group(array('prefix'=>'api/v1'),function(){
+//    --------------------- SELECCT ALL ----------------------
     Route::resource('marca','UrlController@selectallmarca');
      Route::resource('usuaris','UrlController@selectallusuaris');
      Route::resource('correu','UrlController@selectallcorreu');
@@ -32,9 +33,19 @@ Route::group(array('prefix'=>'api/v1'),function(){
      Route::resource('model','UrlController@selectallmodel');
      Route::resource('periodicitat','UrlController@selectallperiodicitat');
      Route::resource('viatge','UrlController@selectallviatge');
+//    --------------------- IDS ----------------------
+     
+        Route::resource('marcaid','UrlController@selectmarcaid');
+        Route::resource('usuarisid','UrlController@selectusuarisid');
 
 
     
+});
+
+Route::get('marcawhere/{nombrecampo}/{model}', function($nombrecampo,$model)
+{
+        return Marca::where($nombrecampo, '=', $model)
+        ->get();
 });
 
 //Route::get('insertmarca/{marca}',function($marca){
