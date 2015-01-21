@@ -24,23 +24,5 @@ Route::group(array('prefix'=>'api/v1'),function(){
     Route::resource('marca','UrlController@index');
 });
 
-//Route::get('insertmarca/{marca}',function($marca){
-//
-//        $con = mysqli_connect('JONA-PC','jona','1234','dawsharing');
-//        mysqli_query($con,"insert into marca (marca) values ('$marca')");
-//        return View::make('/backend/prueba');
-//    
-// 
-//});
-//
-//Route::get('deletemarca/{marca}',function($marca){
-//
-//       
-//        $con = mysqli_connect('JONA-PC','jona','1234','dawsharing');
-//        mysqli_query($con,"DELETE FROM marca where marca = '$marca'");
-//        return View::make('/backend/prueba');
-//    
-// 
-//});
 
 
