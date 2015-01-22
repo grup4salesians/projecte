@@ -4,36 +4,36 @@ class UrlController extends BaseController{
      
     public function selectallmarca(){
         $marca = Marca::all();          
-        return Response::json(array('Marca'=> $marca));
+        return Response::json(array('Error'=>MirarError($marca),'Marca'=> $marca),200);
     }
     
      public function selectallusuaris(){
         $usuaris = Usuaris::all();          
-        return Response::json(array('Usuaris'=> $usuaris));
+        return Response::json(array('Error'=>MirarError($marca),'Usuaris'=> $usuaris),200);
     }
     
      public function selectallcorreu(){
         $correu = Correu::all();          
-        return Response::json(array('Correu'=> $correu));
+        return Response::json(array('Error'=>MirarError($marca),'Correu'=> $correu),200);
     }
     
      public function selectallvehicles(){
         $vehicles = Vehicles::all();          
-        return Response::json(array('Vehicles'=> $vehicles));
+        return Response::json(array('Error'=>MirarError($marca),'Vehicles'=> $vehicles),200);
     }
     
     public function selectallvehiclesusuaris(){
         $vehiclesusuaris = Vehiclesusuaris::all();          
-        return Response::json(array('Vehicles_usuaris'=> $vehiclesusuaris));
+        return Response::json(array('Error'=>MirarError($marca),'Vehicles_usuaris'=> $vehiclesusuaris),200);
     }
     
     public function selectallcaracteristiques(){
         $caracteristiques = Caracteristiques::all();          
-        return Response::json(array('Caracteristiques'=> $caracteristiques));
+        return Response::json(array('Error'=>MirarError($marca),'Caracteristiques'=> $caracteristiques),200);
     }
     public function selectallpassatger(){
         $Passatger = Passatger::all();          
-        return Response::json(array('Passatger'=> $Passatger));
+        return Response::json(array('Error'=>MirarError($marca),'Passatger'=> $Passatger),200);
     }
     public function selectallruta(){
         $ruta = Ruta::all();          
@@ -41,27 +41,28 @@ class UrlController extends BaseController{
     }
     public function selectallmodel(){
         $model = Model::all();          
-        return Response::json(array('Model'=> $model));
+        return Response::json(array('Error'=>MirarError($marca),'Model'=> $model),200);
     }
     
     public function selectallperiodicitat(){
         $Periodicitat = Periodicitat::all();          
-        return Response::json(array('Periodicitat'=> $Periodicitat));
+        return Response::json(array('Error'=>MirarError($marca),'Periodicitat'=> $Periodicitat),200);
     }
     public function selectallviatge(){
         $Viatge = Periodicitat::all();          
-        return Response::json(array('Viatge'=> $Viatge));
+        return Response::json(array('Error'=>MirarError($marca),'Viatge'=> $Viatge),200);
     }
     
     /*******/
      public function selectusuarisid($id){
         $usuaris = Usuaris::where('id',$id)->get(); 
-        return Response::json(array('Usuaris'=> $usuaris));
+        return Response::json(array('Error'=>MirarError($marca),'Usuaris'=> $usuaris),200);
     }
      public function selectmarcaid($id){
         $marca = Marca::where('id',$id)->get(); 
-        return Response::json(array('Marca'=> $marca));
+        return Response::json(array('Error'=>MirarError($marca),'Marca'=> $marca),200);
     }
+    
     
 //     public function selectallcorreuid(){
 //        $correu = Correu::all();          
@@ -106,5 +107,14 @@ class UrlController extends BaseController{
 //    
     
 }
+
+?>
+
+<?php
+function MirarError($valor){
+        if (count($valor)){$error = 0;}
+        else{ $error = 1; }
+        return $error;
+    }
 
 ?>
