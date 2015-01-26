@@ -1,1 +1,7 @@
-nbproject/
+/bootstrap/compiled.php
+composer.phar
+composer.lock
+.env.*.php
+.env.php
+.DS_Store
+Thumbs.db
